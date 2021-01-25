@@ -16,7 +16,6 @@
  */
 package com.phonefromhere.plain.iax;
 
-import com.phonefromhere.plain.codec.MediaFormat;
 import java.io.IOException;
 
 import com.phonefromhere.plain.iax.net.TransmitterReceiver;
@@ -25,11 +24,7 @@ import com.phonefromhere.softphone.AudioFace;
 import com.phonefromhere.softphone.GenericSoftphone;
 import com.phonefromhere.softphone.PhoneListener;
 import com.phonefromhere.plain.util.IaxLog;
-import com.phonefromhere.softphone.AudioReceiver;
-import com.phonefromhere.softphone.NetStatsFace;
-import com.phonefromhere.softphone.StampedAudio;
 import com.phono.srtplight.Log;
-import java.util.Properties;
 
 public class ExamplePhoneIax implements GenericSoftphone {
     @SuppressWarnings("unused")
@@ -89,6 +84,7 @@ public class ExamplePhoneIax implements GenericSoftphone {
     public void dial(String no, String callingNumber, String callingName) {
         String errorMessageStart = this.getClass().getSimpleName()
                 + ".dial(): Cannot dial " + no + ": set ";
+        Log.debug("Doing a dial...");
         if (_transmitter != null) {
             if (_audio != null) {
                 if (_username != null) {
@@ -299,6 +295,5 @@ public class ExamplePhoneIax implements GenericSoftphone {
        test.setAudioFace(audio);
        test.initialize();
        test.dial("600","100", "tiger");
-       
    }
 }

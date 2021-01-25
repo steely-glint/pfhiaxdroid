@@ -238,6 +238,7 @@ public class TransmitterReceiver {
             _peerAddr = InetAddress.getByName(_peer);
             //_soc = new DatagramSocket(_port);
             _soc = new DatagramSocket();
+            //_soc.bind(null);
             _soc.connect(_peerAddr, _port);
             //_soc.setSoTimeout(1500); turns out plain kills the socket.
             if (REALLOC) {
@@ -263,7 +264,7 @@ public class TransmitterReceiver {
                 }
             };
             _recvThread = new Thread(recvRunnable, "recv_" + _peer + "_"
-                    + _port);
+                    + _port+"_"+this._soc.getLocalSocketAddress().toString());
             //_recvThread.setPriority(Thread.NORM_PRIORITY);
             _recvThread.start();
         }
