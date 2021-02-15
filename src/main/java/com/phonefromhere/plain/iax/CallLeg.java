@@ -462,7 +462,7 @@ public class CallLeg implements HungupListener, AudioReceiver {
 
             boolean doIncreaseOSeqNo = doIncrementMessageCount(outgoingFullFrame);
             if (doIncreaseOSeqNo) {
-                this._outgoingMessageCount++;
+                this._outgoingMessageCount = (short) ((this._outgoingMessageCount + 1) & 0xff);
             }
         }
     }
@@ -518,9 +518,9 @@ public class CallLeg implements HungupListener, AudioReceiver {
         short theirOSeqNo = incomingFullFrame.getOSeqNo();
         if (doIncrementMessageCount(incomingFullFrame)) {
             if (theirOSeqNo == _incomingMaxNo) {
-                _incomingMaxNo++;
+                _incomingMaxNo = (short) ((_incomingMaxNo + 1) & 0xff);
             } else if (theirOSeqNo > _incomingMaxNo) {
-                IaxLog.getLog().debug(this.getClass().getSimpleName()
+                IaxLog.getLog().error(this.getClass().getSimpleName()
                         + ".updateCountersOnIncoming(): oSeqNo problem: theirOSeqNo="
                         + theirOSeqNo + " > _incomingMaxNo=" + _incomingMaxNo);
 
@@ -530,7 +530,7 @@ public class CallLeg implements HungupListener, AudioReceiver {
                 // we've seen this one, probably an old retry?
                 processThisFrame = false;
 
-                IaxLog.getLog().debug(this.getClass().getSimpleName()
+                IaxLog.getLog().error(this.getClass().getSimpleName()
                         + ".updateCountersOnIncoming(): oSeqNo problem (ignore): theirOSeqNo="
                         + theirOSeqNo + " < _incomingMaxNo=" + _incomingMaxNo);
             }
@@ -557,6 +557,16 @@ public class CallLeg implements HungupListener, AudioReceiver {
                         FullFrame fullFrame = (FullFrame) frame;
                         if (fullFrame.getOSeqNo() <= theirISeqNo) {
                             fullFrame.setAcknowlegded(true);
+                        } else {
+                            IaxLog.getLog().debug(this.getClass().getSimpleName()
+                                    + ".updateCountersOnIncoming(): wrap ? "
+                                    + fullFrame.getOSeqNo() + ">" + theirISeqNo);
+                            if ((fullFrame.getOSeqNo() - theirISeqNo) > 250) {
+                                fullFrame.setAcknowlegded(true);
+                                IaxLog.getLog().debug(this.getClass().getSimpleName()
+                                    + ".updateCountersOnIncoming(): wrap acked  "
+                                    + fullFrame.getOSeqNo());
+                            }
                         }
                     }
                 }

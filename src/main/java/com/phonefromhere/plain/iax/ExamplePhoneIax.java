@@ -35,7 +35,7 @@ public class ExamplePhoneIax implements GenericSoftphone {
     private String _username = null;
     private String _password = null;
     private AudioFace _audio = null;
-    private TransmitterReceiver _transmitter = null;
+    protected TransmitterReceiver _transmitter = null;
     private CallLeg _callLeg = null;
     private boolean _isEncrypted = false;
     private String _version = "$Revision: 1.16 $";
