@@ -34,6 +34,7 @@ import com.phonefromhere.plain.iax.frames.Frame;
 import com.phonefromhere.plain.iax.frames.FullFrame;
 import com.phonefromhere.plain.util.IaxLog;
 import com.phonefromhere.softphone.AudioFace;
+import com.phono.srtplight.Log;
 
 
 /**
@@ -137,6 +138,7 @@ public class TransmitterReceiver {
             } catch (Throwable exc) {
                 if (!(exc instanceof java.net.SocketTimeoutException)) {
                     IaxLog.getLog().error(exc.toString());
+                    exc.printStackTrace();
                 }
             }
         }
