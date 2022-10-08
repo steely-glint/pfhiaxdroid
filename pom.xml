@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.phono</groupId>
             <artifactId>srtplight</artifactId>
-            <version>1.1.9</version>
+            <version>1.1.10</version>
         </dependency>
     </dependencies>
 </project>
